@@ -28,7 +28,7 @@ public class Single_PlayerBehaviour : MonoBehaviour {
 		if (transform.name == "ServerPlayer0") {
 			hasBall = true;
 		}
-		isMovementAllowed = false;
+		isMovementAllowed = true;
 		attemptedState = new GameObject ("attemptedState").transform;
 		attemptedState.position = this.transform.position;
 
@@ -63,24 +63,24 @@ public class Single_PlayerBehaviour : MonoBehaviour {
 	void OnMouseDrag(){
 
 		if (isMovementAllowed) {
-			
+
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			float distance;
 			if (plane.Raycast (ray, out distance)) {
 				Vector3 cursorPosition = ray.GetPoint (distance);
 
 				if (this.hasBall) {
-					Vector3 correctPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
-					ball.GetComponent<BallBehaviour> ().attemptedPos = correctPos;
-					ball.GetComponent<BallBehaviour> ().hasBallmoved = true;
-
-
-					line.startColor = Color.blue;
-					line.endColor = Color.blue;
-
-					line.SetPosition (0, this.transform.position);
-					line.SetPosition (1, cursorPosition);
-
+//					Vector3 correctPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
+//					ball.GetComponent<BallBehaviour> ().attemptedPos = correctPos;
+//					ball.GetComponent<BallBehaviour> ().hasBallmoved = true;
+//
+//
+//					line.startColor = Color.blue;
+//					line.endColor = Color.blue;
+//
+//					line.SetPosition (0, this.transform.position);
+//					line.SetPosition (1, cursorPosition);
+//
 					messageUI.GetComponent<MessageUI> ().Display ("Could be a great Pass");
 
 
@@ -103,7 +103,7 @@ public class Single_PlayerBehaviour : MonoBehaviour {
 
 					messageUI.GetComponent<MessageUI> ().Display ("This moves looks a real danger");
 
-	
+
 				}
 
 			}

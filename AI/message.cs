@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour {
+public class message : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
-
-	void randomize(){
 		
 	}
-
-
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 }

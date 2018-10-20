@@ -18,11 +18,11 @@ public class BallBehaviour : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//print ("Ball start run");
-		ballPlayer=GameObject.Find ("ServerPlayer0");
-		ballPlayer.GetComponent<PlayerBehaviour> ().hasBall = true;
-		isBallWithServer = true;
-
-		attemptedPos = transform.position;
+//		ballPlayer=GameObject.Find ("ServerPlayer0");
+//		ballPlayer.GetComponent<PlayerBehaviour> ().hasBall = true;
+//		isBallWithServer = true;
+//
+//		attemptedPos = transform.position;
 	}
 
 
