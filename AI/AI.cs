@@ -5,10 +5,31 @@ using UnityEngine.UI;
 
 public class AI : MonoBehaviour {
 	int setNo;
+	private GameObject[] server;
+	private GameObject[] client;
 
+	private Vector3[] corner;
+	private Vector3[] goalie;
 	// Use this for initialization
 	void Start () {
 		setNo =0;
+		server = new GameObject[5];
+		client = new GameObject[5];
+		corner = new Vector3[5];
+		goalie = new Vector3[5];
+
+		for (int i = 0; i < 5; i++) {
+			server[i] = GameObject.Find ("ServerPlayer" + i);
+			client[i] = GameObject.Find ("ClientPlayer"+i);
+
+			corner[i] = GameObject.Find ("corner"+i).transform.position;
+			goalie[i] = GameObject.Find ("goalie"+i).transform.position;
+		}
+
+
+
+
+
 
 	}
 
@@ -18,13 +39,21 @@ public class AI : MonoBehaviour {
 	}
 
 	public void randomize(){
-		print("randomize funciton activated");
+		// print("randomize function activated");
 		GameObject setNumber = GameObject.Find("Set Number");
-		// if (!setNumber)
-		// 	print ("null");
-		// else
-		// 	print("UI found");
 		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
+
+		//randomize the field player position
+		for (int i = 0; i < 4; i++) {
+//			print("corner"+i+" ="+corner[i]);
+			 Vector3 position1 = new Vector3(Random.Range(corner[0].x,corner[3].x), -0.4882813f, Random.Range(corner[0].z,corner[1].z));
+			 server [i].transform.position = position1;
+			 Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), -0.4882813f, Random.Range(corner[0].z,corner[1].z));
+			 client [i].transform.position = position2;
+		}
+		//randomize the goalie position
+		 server [4].transform.position = new Vector3(Random.Range(goalie[0].x,goalie[1].x), -0.4882813f, Random.Range(goalie[0].z,goalie[1].z));
+		 client [4].transform.position =new Vector3(Random.Range(goalie[2].x,goalie[3].x), -0.4882813f, Random.Range(goalie[2].z,goalie[3].z));
 
 
 	}

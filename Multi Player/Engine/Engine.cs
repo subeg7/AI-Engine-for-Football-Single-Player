@@ -218,7 +218,7 @@ public class Engine : MonoBehaviour {
 
 
 	void Update(){
-		
+
 		if (hasServerSent && hasClientSent && !hasEngineStarted) {
 			hasEngineStarted = true;
 
@@ -255,7 +255,7 @@ public class Engine : MonoBehaviour {
 					if (bEngine.HasShoot (postVerticesLeft[0].x,postVerticesRight[0].x)) {
 						messageUI.GetComponent<EngineUI> ().Display ("a power shot for Goal");
 
-						
+
 
 						int status = bEngine.GoalStatus (postVerticesLeft, postVerticesRight,allPlayer);
 						//inst.transform.position = bEngine.testBall;
@@ -355,7 +355,7 @@ public class Engine : MonoBehaviour {
 			hasServerSent = false;
 			hasEngineStarted = false;
 		}
-	
+
 	}
 
 }
