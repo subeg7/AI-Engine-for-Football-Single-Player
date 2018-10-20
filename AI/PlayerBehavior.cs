@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
-public class PlayerBehaviour : MonoBehaviour {
+public class PlayerBehavior : MonoBehaviour {
 
 	private Vector3 screenPoint;
 	private Vector3 offset;
@@ -19,7 +20,8 @@ public class PlayerBehaviour : MonoBehaviour {
 	public bool hasBall;
 	public Material material,ballMaterial;
 	public LineRenderer line;
-	private GameObject messageUI;
+	private GameObject message;
+	private Vector3 ballPos;
 
 
 	void Start(){
@@ -48,7 +50,9 @@ public class PlayerBehaviour : MonoBehaviour {
 		line.SetPosition(1,this.transform.position);
 
 
-		messageUI = GameObject.Find ("Message");
+		message = GameObject.Find ("Message");
+//		message = GameObject.Find("Message");
+
 
 	}
 
@@ -70,9 +74,7 @@ public class PlayerBehaviour : MonoBehaviour {
 				Vector3 cursorPosition = ray.GetPoint (distance);
 
 				if (this.hasBall) {
-					Vector3 correctPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
-					ball.GetComponent<BallBehaviour> ().attemptedPos = correctPos;
-					ball.GetComponent<BallBehaviour> ().hasBallmoved = true;
+					ballPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
 
 
 					line.startColor = Color.blue;
@@ -81,7 +83,7 @@ public class PlayerBehaviour : MonoBehaviour {
 					line.SetPosition (0, this.transform.position);
 					line.SetPosition (1, cursorPosition);
 
-					messageUI.GetComponent<MessageUI> ().Display ("Could be a great Pass");
+					message.GetComponent<Text>().text="moving the ball";
 
 
 				} else {
@@ -101,7 +103,7 @@ public class PlayerBehaviour : MonoBehaviour {
 					line.SetPosition (0, this.transform.position);
 					line.SetPosition (1, cursorPosition);//end
 
-					messageUI.GetComponent<MessageUI> ().Display ("This moves looks a real danger");
+					message.GetComponent<Text>().text="moving the player";
 
 	
 				}
@@ -109,7 +111,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			}
 
 		} else {
-			messageUI.GetComponent<MessageUI> ().Display ("Hey!! you can't move this player");
+			message.GetComponent<Text>().text="you can't move your opponent";
 	}
 
 

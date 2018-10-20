@@ -10,6 +10,7 @@ public class AI : MonoBehaviour {
 	private GameObject[] all;
 
 	private GameObject ball;
+	private GameObject message;
 
 	private Vector3[] corner;
 	private Vector3[] goalie;
@@ -35,6 +36,8 @@ public class AI : MonoBehaviour {
 
 		}
 		 ball = GameObject.Find("Ball");
+		 message = GameObject.Find("Message");
+
 
 
 
@@ -50,8 +53,6 @@ public class AI : MonoBehaviour {
 
 	public void randomize(){
 		// print("randomize function activated");
-		GameObject setNumber = GameObject.Find("Set Number");
-		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
 
 		//randomize the field player position
 		for (int i = 0; i < 4; i++) {
@@ -66,6 +67,7 @@ public class AI : MonoBehaviour {
 		 client [4].transform.position =new Vector3(Random.Range(goalie[2].x,goalie[3].x), -0.4882813f, Random.Range(goalie[2].z,goalie[3].z));
 
 		RandomizeBall();
+		message.GetComponent<Text>().text="Players and Ball randomized";
 
 	}
 
@@ -74,15 +76,24 @@ public class AI : MonoBehaviour {
 		int randInd = Random.Range(0,9);
 //		print ("randInd="+randInd);
 		//set the new position of ball
-		ball.transform.position = all[randInd].transform.position+new Vector3(0.2f,-0.2f,0.3f);
-		print ("randInd "+randInd+" pos="+all[randInd].transform.position);
+		ball.transform.position = new Vector3(all[randInd].transform.position.x, ball.transform.position.y,all[randInd].transform.position.z) +new Vector3(0.3f,0,0.3f);
+		// print ("randInd "+randInd+" pos="+all[randInd].transform.position);
 
 		//make the hasBall attribute true of randInd player only
 		for (int i = 0; i < 10; i++) {
 
-			all [i].GetComponent<Single_PlayerBehaviour> ().hasBall = false;
+			all [i].GetComponent<PlayerBehavior> ().hasBall = false;
 		}
-		all[randInd].GetComponent<Single_PlayerBehaviour>(). hasBall= true;
+		all[randInd].GetComponent<PlayerBehavior>(). hasBall= true;
+		message.GetComponent<Text>().text="Ball position changed";
+
+	}
+
+	public void Submit(){
+
+
+		GameObject setNumber = GameObject.Find("Set Number");
+		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
 
 	}
 
