@@ -71,10 +71,10 @@ public class PlayerBehavior : MonoBehaviour {
 					ballPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
 
 
-//					line.startColor = Color.blue;
-//					line.endColor = Color.blue;
+					line.startColor = Color.blue;
+					line.endColor = Color.blue;
 
-					line.SetPosition (0, this.transform.position);
+					line.SetPosition (0, (this.transform.position+new Vector3(0,0.5f,0) ) );
 					line.SetPosition (1, cursorPosition);
 
 					message.GetComponent<Text>().text="moving the ball";
@@ -84,8 +84,10 @@ public class PlayerBehavior : MonoBehaviour {
 					Vector3 correctPos = new Vector3 (cursorPosition.x, initialYPos, cursorPosition.z);
 					attemptedState.position = correctPos;
 
+					line.startColor = Color.red;
+					line.endColor = Color.red;
 
-					line.SetPosition (0, this.transform.position);
+					line.SetPosition (0, (this.transform.position+new Vector3(0,0.7f,0) ) );
 					line.SetPosition (1, cursorPosition);//end
 
 					message.GetComponent<Text>().text="moving the player";

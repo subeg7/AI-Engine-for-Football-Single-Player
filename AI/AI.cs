@@ -15,6 +15,8 @@ public class AI : MonoBehaviour {
 
 	private Vector3[] corner;
 	private Vector3[] goalie;
+
+	private float ypos;
 	// Use this for initialization
 	void Start () {
 		setNo =0;
@@ -27,7 +29,7 @@ public class AI : MonoBehaviour {
 
 		for (int i = 0; i < 5; i++) {
 			server[i] = GameObject.Find ("ServerPlayer" + i);
-			server [i].GetComponent<PlayerBehavior> ().isMovementAllowed = true;
+			server [i].GetComponent<PlayerBehavior> ().isMovementAllowed = false;
 
 			client[i] = GameObject.Find ("ClientPlayer"+i);
 			client [i].GetComponent<PlayerBehavior> ().isMovementAllowed = true;
@@ -44,7 +46,7 @@ public class AI : MonoBehaviour {
 		 message = GameObject.Find("Message");
 
 
-
+		ypos = -0.48828f;
 
 
 
@@ -62,14 +64,14 @@ public class AI : MonoBehaviour {
 		//randomize the field player position
 		for (int i = 0; i < 4; i++) {
 //			print("corner"+i+" ="+corner[i]);
-			 Vector3 position1 = new Vector3(Random.Range(corner[0].x,corner[3].x), -0.4882813f, Random.Range(corner[0].z,corner[1].z));
+			Vector3 position1 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
 			 server [i].transform.position = position1;
-			 Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), -0.4882813f, Random.Range(corner[0].z,corner[1].z));
+			Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
 			 client [i].transform.position = position2;
 		}
 		//randomize the goalie position
-		 server [4].transform.position = new Vector3(Random.Range(goalie[0].x,goalie[1].x), -0.4882813f, Random.Range(goalie[0].z,goalie[1].z));
-		 client [4].transform.position =new Vector3(Random.Range(goalie[2].x,goalie[3].x), -0.4882813f, Random.Range(goalie[2].z,goalie[3].z));
+		server [4].transform.position = new Vector3(Random.Range(goalie[0].x,goalie[1].x), ypos, Random.Range(goalie[0].z,goalie[1].z));
+		client [4].transform.position =new Vector3(Random.Range(goalie[2].x,goalie[3].x), ypos, Random.Range(goalie[2].z,goalie[3].z));
 
 		RandomizeBall();
 		message.GetComponent<Text>().text="Players and Ball randomized";
@@ -88,14 +90,16 @@ public class AI : MonoBehaviour {
 		for (int i = 0; i < 10; i++) {
 
 			all [i].GetComponent<PlayerBehavior> ().hasBall = false;
+			all [i].GetComponent<PlayerBehavior> ().ClearLine ();
+
 		}
 		all[randInd].GetComponent<PlayerBehavior>(). hasBall= true;
+
 		message.GetComponent<Text>().text="Ball position changed";
 
 	}
 
 	public void Submit(){
-
 
 		GameObject setNumber = GameObject.Find("Set Number");
 		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
