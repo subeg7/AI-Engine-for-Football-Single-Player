@@ -12,6 +12,7 @@ public class AI : MonoBehaviour {
 	private GameObject ball;
 	private GameObject message;
 
+
 	private Vector3[] corner;
 	private Vector3[] goalie;
 	// Use this for initialization
@@ -26,7 +27,11 @@ public class AI : MonoBehaviour {
 
 		for (int i = 0; i < 5; i++) {
 			server[i] = GameObject.Find ("ServerPlayer" + i);
+			server [i].GetComponent<PlayerBehavior> ().isMovementAllowed = true;
+
 			client[i] = GameObject.Find ("ClientPlayer"+i);
+			client [i].GetComponent<PlayerBehavior> ().isMovementAllowed = true;
+
 			all[i]=server[i];
 			all[i+5]=client[i];
 

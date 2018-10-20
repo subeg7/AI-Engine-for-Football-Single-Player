@@ -12,7 +12,7 @@ public class PlayerBehavior : MonoBehaviour {
 	private GameObject ball;
 	public float  initialYPos;
 	public float initialBallYpos;
-	public bool amIServer;
+//	public bool amIServer;
 	public bool isMovementAllowed;
 	//public Transform State;
 	public Transform attemptedState;
@@ -25,12 +25,6 @@ public class PlayerBehavior : MonoBehaviour {
 
 
 	void Start(){
-
-		hasBall = false;
-		if (transform.name == "ServerPlayer0") {
-			hasBall = true;
-		}
-		isMovementAllowed = false;
 		attemptedState = new GameObject ("attemptedState").transform;
 		attemptedState.position = this.transform.position;
 
@@ -42,7 +36,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 
 		line  =this.GetComponent<LineRenderer>();
-		line.material = new Material (Shader.Find("Particles/Additive"));
+//		line.material = new Material (Shader.Find("Particles/Additive"));
 
 		line.startWidth = 0.5f;
 		line.endWidth = 0.1f;
@@ -77,8 +71,8 @@ public class PlayerBehavior : MonoBehaviour {
 					ballPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
 
 
-					line.startColor = Color.blue;
-					line.endColor = Color.blue;
+//					line.startColor = Color.blue;
+//					line.endColor = Color.blue;
 
 					line.SetPosition (0, this.transform.position);
 					line.SetPosition (1, cursorPosition);
@@ -90,15 +84,6 @@ public class PlayerBehavior : MonoBehaviour {
 					Vector3 correctPos = new Vector3 (cursorPosition.x, initialYPos, cursorPosition.z);
 					attemptedState.position = correctPos;
 
-					if (amIServer) {
-						line.startColor = Color.white;
-						line.endColor = Color.white;
-
-					} else {
-						line.startColor = Color.gray;
-						line.endColor = Color.gray;
-
-					}
 
 					line.SetPosition (0, this.transform.position);
 					line.SetPosition (1, cursorPosition);//end
