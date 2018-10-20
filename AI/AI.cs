@@ -59,21 +59,24 @@ public class AI : MonoBehaviour {
 	}
 
 	public void randomize(){
-		// print("randomize function activated");
-
 		//randomize the field player position
 		for (int i = 0; i < 4; i++) {
-//			print("corner"+i+" ="+corner[i]);
+			//for team-Server(white)
 			Vector3 position1 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
-			 server [i].transform.position = position1;
+			server [i].transform.position = position1;
+
+			//for team-client(black)
 			Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
-			 client [i].transform.position = position2;
+			client [i].transform.position = position2;
 		}
-		//randomize the goalie position
+		//randomize the goalie position within D-Box
 		server [4].transform.position = new Vector3(Random.Range(goalie[0].x,goalie[1].x), ypos, Random.Range(goalie[0].z,goalie[1].z));
 		client [4].transform.position =new Vector3(Random.Range(goalie[2].x,goalie[3].x), ypos, Random.Range(goalie[2].z,goalie[3].z));
 
+		//also change the position of ball
 		RandomizeBall();
+
+		//display message
 		message.GetComponent<Text>().text="Players and Ball randomized";
 
 	}
@@ -81,10 +84,10 @@ public class AI : MonoBehaviour {
 	public void RandomizeBall(){
 		//find the random player to possess ball
 		int randInd = Random.Range(0,9);
-//		print ("randInd="+randInd);
+
 		//set the new position of ball
 		ball.transform.position = new Vector3(all[randInd].transform.position.x, ball.transform.position.y,all[randInd].transform.position.z) +new Vector3(0.3f,0,0.3f);
-		// print ("randInd "+randInd+" pos="+all[randInd].transform.position);
+
 
 		//make the hasBall attribute true of randInd player only
 		for (int i = 0; i < 10; i++) {
@@ -95,6 +98,7 @@ public class AI : MonoBehaviour {
 		}
 		all[randInd].GetComponent<PlayerBehavior>(). hasBall= true;
 
+		//display message
 		message.GetComponent<Text>().text="Ball position changed";
 
 	}

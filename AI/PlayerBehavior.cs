@@ -45,7 +45,6 @@ public class PlayerBehavior : MonoBehaviour {
 
 
 		message = GameObject.Find ("Message");
-//		message = GameObject.Find("Message");
 
 
 	}
