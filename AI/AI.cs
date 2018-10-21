@@ -116,13 +116,17 @@ public class AI : MonoBehaviour {
 
 	public void Submit(){
 
-		//create array of position of all players
-		Vector3[] currentPlayerPos = new Vector3[10];
-		for(int i=0;i<10;i++)
-			currentPlayerPos[i]= all[i].GetComponent<PlayerBehavior>().attemptedState;
-
+		// //create array of position of all players
+		Vector3[] myTeamInitalPos = new Vector3[5];
+		Vector3[] oppTeamPos = new Vector3[5];
+		 Vector3[] myTeamTargetPos = new Vector3[5];
+		for(int i=0;i<5;i++){
+			myTeamTargetPos[i]= all[i].GetComponent<PlayerBehavior>().attemptedState;
+			oppTeamPos[i]= all[i].transform.position;
+			myTeamInitalPos[i]= all[i+5].transform.position;
+		}
 			//create a Serializable object of currentstate of field
-		Field currentState = new Field(currentPlayerPos,all[ballPlayerInd].transform.GetComponent<PlayerBehavior>().attemptedState,ballPlayerInd);
+		Field currentState = new Field(myTeamInitalPos,oppTeamPos,myTeamTargetPos,all[ballPlayerInd].transform.GetComponent<PlayerBehavior>().attemptedState,ballPlayerInd);
 		Field.Serialize(currentState);
 
 
@@ -135,13 +139,17 @@ public class AI : MonoBehaviour {
 
 	[System.Serializable]
 	class Field{
-		public Vector3[] playerPos;
+		public Vector3[] myTeamInitialPos;
+		public Vector3[] oppTeamPos;
+		public Vector3[] myTeamTargetPos;
 		public Vector3 ballPos;
 		public int ballPlayerInd;
 
 
-		public Field(Vector3[] players, Vector3 ball,int ballPlayer){
-			playerPos = players;
+		public Field(Vector3[] myTeam,Vector3[] oppTeam,Vector3[] target, Vector3 ball,int ballPlayer){
+			myTeamInitialPos = myTeam;
+			oppTeamPos=oppTeam;
+			myTeamTargetPos=target;
 			ballPos = ball;
 			ballPlayerInd = ballPlayer;
 		}
