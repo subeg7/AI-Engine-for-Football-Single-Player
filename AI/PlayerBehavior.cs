@@ -2,16 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
-public class PlayerBehaviour : MonoBehaviour {
+public class PlayerBehavior : MonoBehaviour {
 
 	private Vector3 screenPoint;
 	private Vector3 offset;
 	private GameObject ball;
 	public float  initialYPos;
 	public float initialBallYpos;
-	public bool amIServer;
+//	public bool amIServer;
 	public bool isMovementAllowed;
 	//public Transform State;
 	public Transform attemptedState;
@@ -19,16 +20,11 @@ public class PlayerBehaviour : MonoBehaviour {
 	public bool hasBall;
 	public Material material,ballMaterial;
 	public LineRenderer line;
-	private GameObject messageUI;
+	private GameObject message;
+	private Vector3 ballPos;
 
 
 	void Start(){
-
-		hasBall = false;
-		if (transform.name == "ServerPlayer0") {
-			hasBall = true;
-		}
-		isMovementAllowed = false;
 		attemptedState = new GameObject ("attemptedState").transform;
 		attemptedState.position = this.transform.position;
 
@@ -40,7 +36,7 @@ public class PlayerBehaviour : MonoBehaviour {
 
 
 		line  =this.GetComponent<LineRenderer>();
-		line.material = new Material (Shader.Find("Particles/Additive"));
+//		line.material = new Material (Shader.Find("Particles/Additive"));
 
 		line.startWidth = 0.5f;
 		line.endWidth = 0.1f;
@@ -48,7 +44,8 @@ public class PlayerBehaviour : MonoBehaviour {
 		line.SetPosition(1,this.transform.position);
 
 
-		messageUI = GameObject.Find ("Message");
+		message = GameObject.Find ("Message");
+
 
 	}
 
@@ -70,38 +67,29 @@ public class PlayerBehaviour : MonoBehaviour {
 				Vector3 cursorPosition = ray.GetPoint (distance);
 
 				if (this.hasBall) {
-					Vector3 correctPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
-					ball.GetComponent<BallBehaviour> ().attemptedPos = correctPos;
-					ball.GetComponent<BallBehaviour> ().hasBallmoved = true;
+					ballPos = new Vector3 (cursorPosition.x, initialBallYpos, cursorPosition.z);
 
 
 					line.startColor = Color.blue;
 					line.endColor = Color.blue;
 
-					line.SetPosition (0, this.transform.position);
+					line.SetPosition (0, (this.transform.position+new Vector3(0,0.5f,0) ) );
 					line.SetPosition (1, cursorPosition);
 
-					messageUI.GetComponent<MessageUI> ().Display ("Could be a great Pass");
+					message.GetComponent<Text>().text="moving the ball";
 
 
 				} else {
 					Vector3 correctPos = new Vector3 (cursorPosition.x, initialYPos, cursorPosition.z);
 					attemptedState.position = correctPos;
 
-					if (amIServer) {
-						line.startColor = Color.white;
-						line.endColor = Color.white;
+					line.startColor = Color.red;
+					line.endColor = Color.red;
 
-					} else {
-						line.startColor = Color.gray;
-						line.endColor = Color.gray;
-
-					}
-
-					line.SetPosition (0, this.transform.position);
+					line.SetPosition (0, (this.transform.position+new Vector3(0,0.7f,0) ) );
 					line.SetPosition (1, cursorPosition);//end
 
-					messageUI.GetComponent<MessageUI> ().Display ("This moves looks a real danger");
+					message.GetComponent<Text>().text="moving the player";
 
 	
 				}
@@ -109,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour {
 			}
 
 		} else {
-			messageUI.GetComponent<MessageUI> ().Display ("Hey!! you can't move this player");
+			message.GetComponent<Text>().text="you can't move your opponent";
 	}
 
 

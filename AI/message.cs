@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class traingle : MonoBehaviour {
+public class message : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
