@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class AI : MonoBehaviour {
 	int setNo;
 	private GameObject[] server;
@@ -16,7 +17,10 @@ public class AI : MonoBehaviour {
 	private Vector3[] corner;
 	private Vector3[] goalie;
 
+	 private int ballPlayerInd;
+
 	private float ypos;
+	public GameObject inst;
 	// Use this for initialization
 	void Start () {
 		setNo =0;
@@ -55,10 +59,12 @@ public class AI : MonoBehaviour {
 			//for team-Server(white)
 			Vector3 position1 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
 			server [i].transform.position = position1;
+			server [i].GetComponent<PlayerBehavior>(). attemptedState = position1;
 
 			//for team-client(black)
 			Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
 			client [i].transform.position = position2;
+			client [i].GetComponent<PlayerBehavior>().attemptedState = position2;
 		}
 		//randomize the goalie position within D-Box
 		server [4].transform.position = new Vector3(Random.Range(goalie[0].x,goalie[1].x), ypos, Random.Range(goalie[0].z,goalie[1].z));
@@ -73,10 +79,13 @@ public class AI : MonoBehaviour {
 
 	public void RandomizeBall(){
 		//find the random player to possess ball
-		int randInd = Random.Range(0,9);
+		int ballPlayerInd = Random.Range(0,9);
 
 		//set the new position of ball
-		ball.transform.position = new Vector3(all[randInd].transform.position.x, ball.transform.position.y,all[randInd].transform.position.z) +new Vector3(0.3f,0,0.3f);
+		Vector3 newBallPos = new Vector3(all[ballPlayerInd].transform.position.x, ball.transform.position.y,all[ballPlayerInd].transform.position.z) +new Vector3(0.3f,0,0.3f);
+
+		ball.transform.position = newBallPos;
+
 
 
 		//make the hasBall attribute true of randInd player only
@@ -86,7 +95,7 @@ public class AI : MonoBehaviour {
 			all [i].GetComponent<PlayerBehavior> ().ClearLine ();
 
 		}
-		all[randInd].GetComponent<PlayerBehavior>(). hasBall= true;
+		all[ballPlayerInd].GetComponent<PlayerBehavior>(). hasBall= true;
 
 		//display message
 		message.GetComponent<Text>().text="Ball position changed";
@@ -94,36 +103,47 @@ public class AI : MonoBehaviour {
 
 	public void Submit(){
 
-		// string data =
+		//create array of position of all players
+		Vector3[] currentPlayerPos = new Vector3[10];
+		for(int i=0;i<10;i++)
+			currentPlayerPos[i]= all[i].GetComponent<PlayerBehavior>().attemptedState;
+
+			//create a Serializable object of currentstate of field
+		Field currentState = new Field(currentPlayerPos,all[ballPlayerInd].transform.GetComponent<PlayerBehavior>().attemptedState,ballPlayerInd);
+		Field.Serialize(currentState);
 
 
-		// GameObject setNumber = GameObject.Find("Set Number");
-		// setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
+		GameObject setNumber = GameObject.Find("Set Number");
+		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
 
 
 	}
 
-
+	[System.Serializable]
 	class Field{
-		Vector3[] playerPos;
-		Vector3 ballPos;
-		int ballPlayer;
+		public Vector3[] playerPos;
+		public Vector3 ballPos;
+		public int ballPlayerInd;
 
-		Field(Vector3[] players, Vector3 ball,int ballPlayer){
-			this.playerPos = players;
-			this.ballPos = ball;
-			this.ballPlayer = ballPlayer;
+
+		public Field(Vector3[] players, Vector3 ball,int ballPlayer){
+			playerPos = players;
+			ballPos = ball;
+			ballPlayerInd = ballPlayer;
 		}
 
-		public String Seralize(){
-
+		public static string Serialize(Field obj){
+			string json = JsonUtility.ToJson(obj);
+			print("json="+json);
 			return "null";
 		}
 
-		public Field Static Deseralize(String json){
+		public static Field Desieralize(string json){
 
-			//return obj;
+			return null;
 		}
+
+
 	}
 
 
