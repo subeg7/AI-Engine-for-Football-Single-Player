@@ -62,8 +62,10 @@ public class AI : MonoBehaviour {
 			server [i].transform.position = position1;
 			server [i].GetComponent<PlayerBehavior>(). attemptedState = position1;
 
-			//for team-client(black)
+			//for team-client(black) ( randomizing it multiple times to avoid similar positions of teams)
 			Vector3 position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
+			position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
+			position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));position2 = new Vector3(Random.Range(corner[0].x,corner[3].x), ypos, Random.Range(corner[0].z,corner[1].z));
 			client [i].transform.position = position2;
 			client [i].GetComponent<PlayerBehavior>().attemptedState = position2;
 		}
@@ -80,12 +82,14 @@ public class AI : MonoBehaviour {
 
 	public void RandomizeBall(){
 		//find the random player to possess ball
-		int ballPlayerInd = Random.Range(0,9);
+		ballPlayerInd = Random.Range(0,9);
 
 		//set the new position of ball
 		Vector3 newBallPos = new Vector3(all[ballPlayerInd].transform.position.x, ball.transform.position.y,all[ballPlayerInd].transform.position.z) +new Vector3(0.3f,0,0.3f);
 
 		ball.transform.position = newBallPos;
+
+
 
 
 
@@ -97,7 +101,15 @@ public class AI : MonoBehaviour {
 
 		}
 		all[ballPlayerInd].GetComponent<PlayerBehavior>(). hasBall= true;
+		ball.GetComponent<PlayerBehavior> ().hasBall=false;
+		ball.GetComponent<PlayerBehavior> ().isMovementAllowed = false;
 
+		if (ballPlayerInd > 4){
+			ball.GetComponent<PlayerBehavior> ().ClearLine();
+			ball.GetComponent<PlayerBehavior> ().isMovementAllowed = true;
+			ball.GetComponent<PlayerBehavior> ().hasBall = true;
+
+		}
 		//display message
 		message.GetComponent<Text>().text="Ball position changed";
 	}
@@ -116,7 +128,7 @@ public class AI : MonoBehaviour {
 
 		GameObject setNumber = GameObject.Find("Set Number");
 		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
-		message.GetComponent<Text>().text="successfully written";
+		message.GetComponent<Text>().text="added to TrainingData Set";
 
 
 	}
@@ -137,7 +149,7 @@ public class AI : MonoBehaviour {
 		public static string Serialize(Field obj){
 			string json = JsonUtility.ToJson(obj);
 			string filePath = Path.Combine(Application.dataPath, "Script/AI/Data/TrainingData.json");
-			File.AppendAllText (filePath,"\n"+json);
+			File.AppendAllText (filePath,json+"\n");
 
 			return "null";
 		}
