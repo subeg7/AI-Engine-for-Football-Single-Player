@@ -116,6 +116,7 @@ public class AI : MonoBehaviour {
 
 		GameObject setNumber = GameObject.Find("Set Number");
 		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
+		message.GetComponent<Text>().text="successfully written";
 
 
 	}
@@ -135,9 +136,9 @@ public class AI : MonoBehaviour {
 
 		public static string Serialize(Field obj){
 			string json = JsonUtility.ToJson(obj);
-			string filePath = Path.Combine(Application.dataPath, "TrainingData.json");
+			string filePath = Path.Combine(Application.dataPath, "Script/AI/Data/TrainingData.json");
 			File.AppendAllText (filePath,"\n"+json);
-		
+
 			return "null";
 		}
 
