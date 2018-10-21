@@ -7,26 +7,25 @@ using System;
 
 public class PlayerBehavior : MonoBehaviour {
 
-	private Vector3 screenPoint;
-	private Vector3 offset;
-	private GameObject ball;
+
 	public float  initialYPos;
 	public float initialBallYpos;
-//	public bool amIServer;
 	public bool isMovementAllowed;
-	//public Transform State;
-	public Transform attemptedState;
+	public Vector3 attemptedState;
 	public Plane plane;
 	public bool hasBall;
-	public Material material,ballMaterial;
-	public LineRenderer line;
+
+	private LineRenderer line;
+	private Material material,ballMaterial;
+	private Vector3 screenPoint;
+	private GameObject ball;
 	private GameObject message;
 	private Vector3 ballPos;
 
 
 	void Start(){
-		attemptedState = new GameObject ("attemptedState").transform;
-		attemptedState.position = this.transform.position;
+
+		attemptedState = this.transform.position;
 
 		GameObject ground = GameObject.Find ("Grass");
 		Vector3 groundPos = ground.transform.position;
@@ -60,7 +59,7 @@ public class PlayerBehavior : MonoBehaviour {
 	void OnMouseDrag(){
 
 		if (isMovementAllowed) {
-			
+
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			float distance;
 			if (plane.Raycast (ray, out distance)) {
@@ -81,7 +80,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 				} else {
 					Vector3 correctPos = new Vector3 (cursorPosition.x, initialYPos, cursorPosition.z);
-					attemptedState.position = correctPos;
+					attemptedState = correctPos;
 
 					line.startColor = Color.red;
 					line.endColor = Color.red;
@@ -91,7 +90,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 					message.GetComponent<Text>().text="moving the player";
 
-	
+
 				}
 
 			}
