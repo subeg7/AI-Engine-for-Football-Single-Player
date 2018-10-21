@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -134,7 +135,9 @@ public class AI : MonoBehaviour {
 
 		public static string Serialize(Field obj){
 			string json = JsonUtility.ToJson(obj);
-			print("json="+json);
+			string filePath = Path.Combine(Application.dataPath, "TrainingData.json");
+			File.AppendAllText (filePath,"\n"+json);
+		
 			return "null";
 		}
 
