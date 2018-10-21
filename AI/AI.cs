@@ -13,6 +13,7 @@ public class AI : MonoBehaviour {
 
 	private GameObject ball;
 	private GameObject message;
+	private GameObject messageTotal;
 
 
 	private Vector3[] corner;
@@ -22,6 +23,9 @@ public class AI : MonoBehaviour {
 
 	private float ypos;
 	public GameObject inst;
+
+	private static string filePath;
+	private int totalData;
 	// Use this for initialization
 	void Start () {
 		setNo =0;
@@ -49,9 +53,19 @@ public class AI : MonoBehaviour {
 		}
 		 ball = GameObject.Find("Ball");
 		 message = GameObject.Find("Message");
-
-
 		ypos = -0.48828f;
+
+		//json part
+	 filePath = Path.Combine(Application.dataPath, "Script/AI/Data/TrainingData.json");
+		this.DisplayTotalTrainingData();
+
+	}
+
+	private void DisplayTotalTrainingData(){
+		string dataAsJson = File.ReadAllText(filePath);
+		totalData = dataAsJson.Split('\n').Length;
+		messageTotal = GameObject.Find("Total Data");
+		messageTotal.GetComponent<Text>().text = "Total Data:"+(totalData-1);
 	}
 
 	public void randomize(){
@@ -103,9 +117,9 @@ public class AI : MonoBehaviour {
 		all[ballPlayerInd].GetComponent<PlayerBehavior>(). hasBall= true;
 		ball.GetComponent<PlayerBehavior> ().hasBall=false;
 		ball.GetComponent<PlayerBehavior> ().isMovementAllowed = false;
+		ball.GetComponent<PlayerBehavior> ().ClearLine();
 
 		if (ballPlayerInd > 4){
-			ball.GetComponent<PlayerBehavior> ().ClearLine();
 			ball.GetComponent<PlayerBehavior> ().isMovementAllowed = true;
 			ball.GetComponent<PlayerBehavior> ().hasBall = true;
 
@@ -130,10 +144,14 @@ public class AI : MonoBehaviour {
 		Field.Serialize(currentState);
 
 
-		GameObject setNumber = GameObject.Find("Set Number");
-		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
-		message.GetComponent<Text>().text="added to TrainingData Set";
 
+
+		GameObject setNumber = GameObject.Find("Set Number");
+		setNumber.GetComponent<Text>().text="Total no. of data:"+ ++setNo;
+		message.GetComponent<Text>().text="added to TrainingData Set, ready for new one";
+
+		this.DisplayTotalTrainingData();
+		this.randomize();
 
 	}
 
@@ -156,7 +174,6 @@ public class AI : MonoBehaviour {
 
 		public static string Serialize(Field obj){
 			string json = JsonUtility.ToJson(obj);
-			string filePath = Path.Combine(Application.dataPath, "Script/AI/Data/TrainingData.json");
 			File.AppendAllText (filePath,json+"\n");
 
 			return "null";
