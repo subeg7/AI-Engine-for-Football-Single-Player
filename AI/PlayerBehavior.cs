@@ -59,7 +59,7 @@ public class PlayerBehavior : MonoBehaviour {
 	void OnMouseDrag(){
 
 		if (isMovementAllowed) {
-			
+
 			Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 			float distance;
 			if (plane.Raycast (ray, out distance)) {
@@ -90,7 +90,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 					message.GetComponent<Text>().text="moving the player";
 
-	
+
 				}
 
 			}
