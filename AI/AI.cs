@@ -47,15 +47,6 @@ public class AI : MonoBehaviour {
 
 
 		ypos = -0.48828f;
-
-
-
-
-	}
-
-	// Update is called once per frame
-	void Update () {
-
 	}
 
 	public void randomize(){
@@ -78,7 +69,6 @@ public class AI : MonoBehaviour {
 
 		//display message
 		message.GetComponent<Text>().text="Players and Ball randomized";
-
 	}
 
 	public void RandomizeBall(){
@@ -100,14 +90,40 @@ public class AI : MonoBehaviour {
 
 		//display message
 		message.GetComponent<Text>().text="Ball position changed";
-
 	}
 
 	public void Submit(){
 
-		GameObject setNumber = GameObject.Find("Set Number");
-		setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
+		// string data =
 
+
+		// GameObject setNumber = GameObject.Find("Set Number");
+		// setNumber.GetComponent<Text>().text="Traning Data Set No:"+ ++setNo;
+
+
+	}
+
+
+	class Field{
+		Vector3[] playerPos;
+		Vector3 ballPos;
+		int ballPlayer;
+
+		Field(Vector3[] players, Vector3 ball,int ballPlayer){
+			this.playerPos = players;
+			this.ballPos = ball;
+			this.ballPlayer = ballPlayer;
+		}
+
+		public String Seralize(){
+
+			return "null";
+		}
+
+		public Field Static Deseralize(String json){
+
+			//return obj;
+		}
 	}
 
 
