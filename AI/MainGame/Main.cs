@@ -6,8 +6,8 @@ public class Main : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		NeuralNetwork nn  = new NeuralNetwork(2,1,1);
-		
+		NeuralNetwork nn  = new NeuralNetwork(5,5,1);
+
 	}
 
 }
