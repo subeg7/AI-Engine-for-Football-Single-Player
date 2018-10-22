@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
@@ -147,7 +147,7 @@ public class AI : MonoBehaviour {
 
 
 		GameObject setNumber = GameObject.Find("Set Number");
-		setNumber.GetComponent<Text>().text="Total no. of data:"+ ++setNo;
+		setNumber.GetComponent<Text>().text="Data added today:"+ ++setNo;
 		message.GetComponent<Text>().text="added to TrainingData Set, ready for new one";
 
 		this.DisplayTotalTrainingData();
