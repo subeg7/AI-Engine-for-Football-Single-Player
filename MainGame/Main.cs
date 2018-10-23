@@ -15,14 +15,20 @@ public class Main : MonoBehaviour {
 		NeuralNetwork nn  = new NeuralNetwork(5,5,1);
 
 		//fetch the data from TrainingData.json file
-		filePath = Path.Combine(Application.dataPath, "Script/AI/TrainingGround/Data/TrainingData.json");
+		filePath = Path.Combine(Application.dataPath, "Script/TrainingGround/Data/TrainingData.json");
 		string dataAsJson = File.ReadAllText(filePath);
-		Ground ground = JsonUtility.FromJson<Ground>(dataAsJson);
-		//train the NeuralNetwork
-		// nn.train(input_array,target array);
+		string[] data = dataAsJson.Split('\n');
 
 
-		// nn.predict();
+		for(int i = 0;i<5;i++){
+		//create a single Ground Object
+		Ground groundData = JsonUtility.FromJson<Ground>(data[i]);
+
+		//train the NeuralNetwork from the dataObject
+		nn.train(groundData);
+	}
+
+
 	}
 
 }

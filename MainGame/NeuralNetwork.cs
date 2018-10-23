@@ -29,6 +29,10 @@ public class NeuralNetwork {
 		// weights_ih.Display("weights_ih");
 	}
 
+	public void  train(Ground ground){
+		
+	}
+
 
 
 }
