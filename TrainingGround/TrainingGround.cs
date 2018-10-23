@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class AI : MonoBehaviour {
+public class TrainingGround : MonoBehaviour {
 	int setNo;
 	private GameObject[] server;
 	private GameObject[] client;
@@ -56,7 +56,7 @@ public class AI : MonoBehaviour {
 		ypos = -0.48828f;
 
 		//json part
-	 filePath = Path.Combine(Application.dataPath, "Script/AI/Data/TrainingData.json");
+	 filePath = Path.Combine(Application.dataPath, "Script/TrainingGround/Data/TrainingData.json");
 		this.DisplayTotalTrainingData();
 
 	}
@@ -140,8 +140,8 @@ public class AI : MonoBehaviour {
 			myTeamInitalPos[i]= all[i+5].transform.position;
 		}
 			//create a Serializable object of currentstate of field
-		Field currentState = new Field(myTeamInitalPos,oppTeamPos,myTeamTargetPos,all[ballPlayerInd].transform.GetComponent<PlayerBehavior>().attemptedState,ballPlayerInd);
-		Field.Serialize(currentState);
+		Ground currentState = new Ground(myTeamInitalPos,oppTeamPos,myTeamTargetPos,all[ballPlayerInd].transform.GetComponent<PlayerBehavior>().attemptedState,ballPlayerInd);
+		Ground.Serialize(currentState);
 
 
 
@@ -155,37 +155,6 @@ public class AI : MonoBehaviour {
 
 	}
 
-	[System.Serializable]
-	class Field{
-		public Vector3[] myTeamInitialPos;
-		public Vector3[] oppTeamPos;
-		public Vector3[] myTeamTargetPos;
-		public Vector3 ballPos;
-		public int ballPlayerInd;
-
-
-		public Field(Vector3[] myTeam,Vector3[] oppTeam,Vector3[] target, Vector3 ball,int ballPlayer){
-			myTeamInitialPos = myTeam;
-			oppTeamPos=oppTeam;
-			myTeamTargetPos=target;
-			ballPos = ball;
-			ballPlayerInd = ballPlayer;
-		}
-
-		public static string Serialize(Field obj){
-			string json = JsonUtility.ToJson(obj);
-			File.AppendAllText (filePath,json+"\n");
-
-			return "null";
-		}
-
-		public static Field Desieralize(string json){
-
-			return null;
-		}
-
-
-	}
-
+	
 
 }
