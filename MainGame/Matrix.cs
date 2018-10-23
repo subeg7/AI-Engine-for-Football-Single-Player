@@ -5,7 +5,7 @@ using UnityEngine;
 public class Matrix  {
   int rows;
   int cols;
-   float[,] data;
+  public float[,] data;
 
   public Matrix(int _rows, int _cols){
     this.rows = _rows;
@@ -57,15 +57,35 @@ public class Matrix  {
    }
 
   }
+
+  public static Matrix Multiply(Matrix a , Matrix b){
+
+    if (a.cols != b.rows) {
+      Debug.Log("a.cols must equal b.rows");
+      return null;
+    }else{
+      Matrix result = new Matrix(a.rows,b.cols);
+      for(int i =0;i<a.rows;i++){
+        for(int j=0;j<b.cols;j++){
+          float sum=0;
+          for(int k=0;k<b.rows;k++)
+            sum+=a.data[i,k]*b.data[k,j];
+          result.data[i,j]=sum;
+          sum=0;
+        }
+
+      }
+    return result;
+    }
+  }
+  public static Matrix fromArray(float[] arr){
+    Matrix mat = new Matrix(arr.Length,1);
+      for(int i =0;i<arr.Length;i++){
+        mat.data[i,0]=arr[i];
+      }
+    return mat;
+  }
   public void SigmoidMap(){
 
   }
-
-
-
-
 }
-
-// public class Function{
-//
-// }
