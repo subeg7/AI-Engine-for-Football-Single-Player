@@ -5,6 +5,10 @@ public class NeuralNetwork {
 	int hidden_nodes;
 	int output_nodes;
 
+	Matrix weights_ih;
+	Matrix weights_ho;
+	Matrix bias_h;
+	Matrix bias_o;
 
 
 	public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes){
@@ -12,8 +16,19 @@ public class NeuralNetwork {
 		this.hidden_nodes = hiddenNodes;
 		this.output_nodes = outputNodes;
 
-		Matrix weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
+		this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
+		this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
+		this.weights_ih.Randomize();
+    this.weights_ho.Randomize();
+
+		this.bias_h = new Matrix(this.hidden_nodes, 1);
+    this.bias_o = new Matrix(this.output_nodes, 1);
+    this.bias_h.Randomize();
+    this.bias_o.Randomize();
+
 		// weights_ih.Display("weights_ih");
 	}
+
+
 
 }

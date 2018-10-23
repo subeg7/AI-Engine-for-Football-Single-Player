@@ -24,6 +24,16 @@ public class Matrix  {
 
   }
 
+  public void Randomize(){
+    for(int i =0;i<this.rows;i++){
+      for(int j=0;j<this.cols;j++){
+        // Debug.Log("inserting:"+x);
+        this.data[i,j]= Random.Range(-1.0f,1.0f );
+        // Debug.Log("value at array:"+this.data[i,j]);
+      }
+    }
+  }
+
   public void Map(float x){
    for(int i =0;i<this.rows;i++){
      for(int j=0;j<this.cols;j++){
@@ -50,6 +60,9 @@ public class Matrix  {
   public void SigmoidMap(){
 
   }
+
+
+
 
 }
 
