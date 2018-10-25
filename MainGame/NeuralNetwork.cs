@@ -10,7 +10,11 @@ public class NeuralNetwork {
 	Matrix bias_h;
 	Matrix bias_o;
 
-	float learning_rate = 0.1f;
+	public string activation_function;
+	public string activation_devFunction;
+
+
+	public float learning_rate = 0.1f;
 
 
 	public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes){
@@ -33,6 +37,24 @@ public class NeuralNetwork {
 			public void  trainX(float[] myTeam, float[] oppTeam, float[] myTarget,int ballPlayer ){
 				Matrix input_mat = Matrix.fromArray(myTeam);
 				Matrix hidden = Matrix.Multiply(this.weights_ih,input_mat);
+				hidden.Add(this.bias_h);
+				hidden.Map(this.activation_function);
+				// hidden.Display("hidden");
+
+				Matrix nn_outputs = Matrix.Multiply(this.weights_ho, hidden);
+		    // nn_outputs.Add(this.bias_o);
+				// nn_outputs.Map(this.activation_function);
+
+				// Convert array to matrix object
+		    Matrix targets = Matrix.fromArray(myTarget);
+				// ERROR = TARGETS - OUTPUTS
+
+				nn_outputs.Display("nn_outpus");
+				targets.Display("myTarget");
+
+		    Matrix output_errors = Matrix.Substract(targets, nn_outputs);
+
+
 
 	}
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Matrix  {
   int rows;
@@ -11,7 +12,8 @@ public class Matrix  {
     this.rows = _rows;
     this.cols = _cols;
 		this.data = new float[_rows,_cols];
-    this.Map(5.4f);
+
+    // this.Map(5.4f);
 
   }
 
@@ -20,7 +22,7 @@ public class Matrix  {
     Debug.Log ("rows="+this.rows);
     Debug.Log ("cols="+this.cols);
 		this.DisplayArray ();
-    Debug.Log("displaying ended for "+st);
+    Debug.Log("........................displaying ended for."+st);
 
   }
 
@@ -28,7 +30,7 @@ public class Matrix  {
     for(int i =0;i<this.rows;i++){
       for(int j=0;j<this.cols;j++){
         // Debug.Log("inserting:"+x);
-        this.data[i,j]= Random.Range(-1.0f,1.0f );
+        this.data[i,j]= UnityEngine.Random.Range(-1.0f,1.0f );
         // Debug.Log("value at array:"+this.data[i,j]);
       }
     }
@@ -57,7 +59,31 @@ public class Matrix  {
    }
 
   }
+  public void Map(string func){
+    if(func=="sigmoid")
+      this.SigmoidMap();
+    else if (func=="relu")
+      this.ReluMap();
+    else if(func=="tanh")
+      this.TanhMap();
 
+
+  }
+  public void Add(Matrix mat){
+    for(int i =0;i<mat.rows;i++){
+      for(int j=0;j<mat.cols;j++)
+        this.data[i,j]+=mat.data[i,j];
+    }
+  }
+
+  public static  Matrix  Substract(Matrix a, Matrix b){
+    Matrix result  = new Matrix(a.rows,a.cols);
+    for(int i =0;i<a.rows;i++){
+      for(int j=0;j<a.cols;j++)
+        result.data[i,j]= a.data[i,j]-b.data[i,j];
+    }
+    return result;
+  }
   public static Matrix Multiply(Matrix a , Matrix b){
 
     if (a.cols != b.rows) {
@@ -85,7 +111,21 @@ public class Matrix  {
       }
     return mat;
   }
-  public void SigmoidMap(){
+  private void SigmoidMap(){
+    for(int i =0;i<this.rows;i++){
+      for(int j=0;j<this.cols;j++)
+        this.data[i,j]=1/(1+(float)Math.Exp( this.data[i,j]) );
+    }
+  }
 
+  private void ReluMap(){
+
+  }
+
+  private void TanhMap(){
+  //   for(int i =0;i<this.rows;i++){
+  //     for(int j=0;j<this.cols;j++)
+  //       this.data[i,j]=1/(1+Math.exponential(-this.data[i,j]))
+  //   }
   }
 }

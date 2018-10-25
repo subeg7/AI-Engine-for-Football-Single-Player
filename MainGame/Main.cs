@@ -13,6 +13,7 @@ public class Main : MonoBehaviour {
 
 		//create the nerual netowrk
 		NeuralNetwork nn  = new NeuralNetwork(5,5,1);
+		nn.activation_function="sigmoid";
 
 		//fetch the data from TrainingData.json file
 		filePath = Path.Combine(Application.dataPath, "Script/TrainingGround/Data/TrainingData.json");
@@ -31,7 +32,7 @@ public class Main : MonoBehaviour {
 		myTeamX=new float[5];
 		oppTeamX=new float[5];
 		myTargetX=new float[5];
-		
+
 		myTeamZ=new float[5];
 		oppTeamZ=new float[5];
 		myTargetZ=new float[5];
