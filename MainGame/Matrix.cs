@@ -46,11 +46,11 @@ public class Matrix  {
    }
   }
 
-  public void DisplayArray(){
+  public  void DisplayArray(){
     string singleRow="[";
    for(int i =0;i<this.rows;i++){
      for(int j=0;j<this.cols;j++){
-       singleRow+="_"+this.data[i,j];
+       singleRow+="  "+this.data[i,j];
        // Debug.Log("["+i+","+j+"]:"+this.data[i,j]);
      }
      singleRow +="]";
@@ -59,6 +59,20 @@ public class Matrix  {
    }
 
   }
+
+  public  static void DisplayArray(float[] arr){
+    string singleRow="[";
+   for(int i =0;i<arr.Length;i++){
+       singleRow+="  "+arr[i];
+     }
+     singleRow +="]";
+     Debug.Log(singleRow);
+
+   }
+
+
+
+
   public void Map(string func){
     if(func=="sigmoid")
       this.SigmoidMap();
@@ -91,6 +105,7 @@ public class Matrix  {
       return null;
     }else{
       Matrix result = new Matrix(a.rows,b.cols);
+      // result.Display("result_of_mults");
       for(int i =0;i<a.rows;i++){
         for(int j=0;j<b.cols;j++){
           float sum=0;

@@ -21,37 +21,39 @@ public class Main : MonoBehaviour {
 		string[] data = dataAsJson.Split('\n');
 
 
-		for(int i = 0;i<5;i++){
-		//create a single Ground Object
-		Ground groundData = JsonUtility.FromJson<Ground>(data[i]);
+		for(int i = 0;i<1;i++){
+				//create a single Ground Object
+				Ground groundData = JsonUtility.FromJson<Ground>(data[i]);
 
+				//init X array and Z array
+				float[] myTeamX,oppTeamX,myTargetX;
+				float[] myTeamZ,oppTeamZ,myTargetZ;
+				myTeamX=new float[5];
+				oppTeamX=new float[5];
+				myTargetX=new float[5];
+				myTeamZ=new float[5];
+				oppTeamZ=new float[5];
+				myTargetZ=new float[5];
 
-		float[] myTeamX,oppTeamX,myTargetX;
-		float[] myTeamZ,oppTeamZ,myTargetZ;
+				
 
-		myTeamX=new float[5];
-		oppTeamX=new float[5];
-		myTargetX=new float[5];
+				//make separate array of x and z only
+				for(int j =0;j<5;j++){
+		//			for x
+					myTeamX[j] = groundData.myTeamInitialPos[j].x;
+					oppTeamX[j] = groundData.oppTeamPos[j].x;
+					myTargetX[j] = groundData.myTeamTargetPos[j].x;
+					//for z
+					myTeamZ[j] = groundData.myTeamInitialPos[j].z;
+					oppTeamZ[j] = groundData.oppTeamPos[j].z;
+					myTargetZ[j] = groundData.myTeamTargetPos[j].z;
+				}
 
-		myTeamZ=new float[5];
-		oppTeamZ=new float[5];
-		myTargetZ=new float[5];
+				//train the NeuralNetwork from the dataObject for X
+				nn.trainX(myTeamX,oppTeamX,myTargetX,groundData.ballPlayerInd);
+		//		nn.trainZ(myTeamX,oppTeamX,myTargetX,groundData.ballPlayerInd);
 
-		//make separate array of x and z only
-		for(int j =0;j<5;j++){
-			myTeamX[i] = groundData.myTeamInitialPos[i].x;
-			oppTeamX[i] = groundData.oppTeamPos[i].x;
-			myTargetX[i] = groundData.myTeamTargetPos[i].x;
-			//for z
-			myTeamZ[i] = groundData.myTeamInitialPos[i].z;
-			oppTeamZ[i] = groundData.oppTeamPos[i].z;
-			myTargetZ[i] = groundData.myTeamTargetPos[i].z;
-
-		}
-
-		//train the NeuralNetwork from the dataObject for X
-		nn.trainX(myTeamX,oppTeamX,myTargetX,groundData.ballPlayerInd);
-		// nn.trainZ(groundData.myTeamInitialPos,groundData.oppTeamPos,groundData.myTeamTargetPos,groundData.ballPlayerInd);
+				// nn.trainZ(groundData.myTeamInitialPos,groundData.oppTeamPos,groundData.myTeamTargetPos,groundData.ballPlayerInd);
 	}
 
 
