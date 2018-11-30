@@ -135,11 +135,10 @@ public class Matrix  {
     }
   }
 
-  public void Matrix multiply(Matrix a){
+  public void  multiply(Matrix b){
 
     if (this.cols != b.rows) {
       Debug.Log("this.cols must equal b.rows");
-      return null;
     }else{
 
       for(int i =0;i<this.rows;i++){
@@ -153,6 +152,13 @@ public class Matrix  {
 
       }
 
+    }
+  }
+
+  public void  multiply(float num){
+    for(int i =0;i<this.rows;i++){
+      for(int j=0;j<this.cols;j++)
+        this.data[i,j]*=num;
     }
   }
 

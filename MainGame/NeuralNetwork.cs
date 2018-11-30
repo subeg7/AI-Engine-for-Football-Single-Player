@@ -62,7 +62,7 @@ public class NeuralNetwork
 
 		// Convert array to matrix object
 		Matrix targets = Matrix.fromArray (myTarget);
-	
+
 	//calulate errors
 		Matrix output_errors = Matrix.Substract (targets, nn_outputs);
 
@@ -71,9 +71,9 @@ public class NeuralNetwork
 		gradients.Display("gradients");
 		gradients.Map(this.activation_devFunction);
 		gradients.multiply(output_errors);
-    // gradients.multiply(this.learning_rate);
+    gradients.multiply(this.learning_rate);
 
-
+		//calculate delts
 
 
 
