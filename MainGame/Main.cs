@@ -12,8 +12,8 @@ public class Main : MonoBehaviour {
 	void Start () {
 
 		//create the nerual netowrk
-		NeuralNetwork nn  = new NeuralNetwork(5,5,1);
-		nn.activation_function="sigmoid";
+		NeuralNetwork nn  = new NeuralNetwork(10,7,5);
+		nn.SetActivationFunction("sigmoid");
 
 		//fetch the data from TrainingData.json file
 		filePath = Path.Combine(Application.dataPath, "Script/TrainingGround/Data/TrainingData.json");
@@ -25,32 +25,21 @@ public class Main : MonoBehaviour {
 				//create a single Ground Object
 				Ground groundData = JsonUtility.FromJson<Ground>(data[i]);
 
-				//init X array and Z array
-				float[] myTeamX,oppTeamX,myTargetX;
-				float[] myTeamZ,oppTeamZ,myTargetZ;
-				myTeamX=new float[5];
-				oppTeamX=new float[5];
-				myTargetX=new float[5];
-				myTeamZ=new float[5];
-				oppTeamZ=new float[5];
-				myTargetZ=new float[5];
-
-				
-
+				float[] allPlayerInitX = new float[10];
+				float[] myTeamTargetX = new float[5];
 				//make separate array of x and z only
 				for(int j =0;j<5;j++){
-		//			for x
-					myTeamX[j] = groundData.myTeamInitialPos[j].x;
-					oppTeamX[j] = groundData.oppTeamPos[j].x;
-					myTargetX[j] = groundData.myTeamTargetPos[j].x;
-					//for z
-					myTeamZ[j] = groundData.myTeamInitialPos[j].z;
-					oppTeamZ[j] = groundData.oppTeamPos[j].z;
-					myTargetZ[j] = groundData.myTeamTargetPos[j].z;
+
+					allPlayerInitX[j]=groundData.myTeamInitialPos[j].x;
+					allPlayerInitX[j+5]=groundData.oppTeamPos[j].x;
+
+					myTeamTargetX[j]=groundData.myTeamTargetPos[j].x;
+
+
 				}
 
 				//train the NeuralNetwork from the dataObject for X
-				nn.trainX(myTeamX,oppTeamX,myTargetX,groundData.ballPlayerInd);
+				nn.trainX(allPlayerInitX,myTeamTargetX,groundData.ballPlayerInd);
 		//		nn.trainZ(myTeamX,oppTeamX,myTargetX,groundData.ballPlayerInd);
 
 				// nn.trainZ(groundData.myTeamInitialPos,groundData.oppTeamPos,groundData.myTeamTargetPos,groundData.ballPlayerInd);

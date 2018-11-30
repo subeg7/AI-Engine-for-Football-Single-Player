@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class NeuralNetwork {
+public class NeuralNetwork
+{
 	int input_nodes;
 	int hidden_nodes;
 	int output_nodes;
@@ -17,42 +18,63 @@ public class NeuralNetwork {
 	public float learning_rate = 0.1f;
 
 
-	public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes){
+	public NeuralNetwork (int inputNodes, int hiddenNodes, int outputNodes)
+	{
 		this.input_nodes = inputNodes;
 		this.hidden_nodes = hiddenNodes;
 		this.output_nodes = outputNodes;
 
-		this.weights_ih = new Matrix(this.hidden_nodes, this.input_nodes);
-		this.weights_ho = new Matrix(this.output_nodes, this.hidden_nodes);
-		this.weights_ih.Randomize();
-    this.weights_ho.Randomize();
+		this.weights_ih = new Matrix (this.hidden_nodes, this.input_nodes);
+		this.weights_ho = new Matrix (this.output_nodes, this.hidden_nodes);
+		this.weights_ih.Randomize ();
+		this.weights_ho.Randomize ();
+		// weights_ho.Display("weights_ho");
 
-		this.bias_h = new Matrix(this.hidden_nodes, 1);
-    this.bias_o = new Matrix(this.output_nodes, 1);
-    this.bias_h.Randomize();
-    this.bias_o.Randomize();
+		this.bias_h = new Matrix (this.hidden_nodes, 1);
+		this.bias_o = new Matrix (this.output_nodes, 1);
+		this.bias_h.Randomize ();
+		this.bias_o.Randomize ();
 
 		// weights_ih.Display("weights_ih");
 	}
-			public void  trainX(float[] myTeam, float[] oppTeam, float[] myTarget,int ballPlayer ){
-				Matrix input_mat = Matrix.fromArray(myTeam);
-				Matrix hidden = Matrix.Multiply(this.weights_ih,input_mat);
-				hidden.Add(this.bias_h);
-				hidden.Map(this.activation_function);
-				// hidden.Display("hidden");
 
-				Matrix nn_outputs = Matrix.Multiply(this.weights_ho, hidden);
-		    // nn_outputs.Add(this.bias_o);
-				// nn_outputs.Map(this.activation_function);
+	public void SetActivationFunction(string func){
+		this.activation_function=func;
+		this.activation_devFunction="d"+func;
+	}
 
-				// Convert array to matrix object
-		    Matrix targets = Matrix.fromArray(myTarget);
-				// ERROR = TARGETS - OUTPUTS
+	public void  trainX (float[] allPlayer, float[] myTarget, int ballPlayerInd)
+	{
+		Matrix input_mat = Matrix.fromArray (allPlayer);
+		input_mat.Display ("input_mat");
 
-				nn_outputs.Display("nn_outpus");
-				targets.Display("myTarget");
 
-		    Matrix output_errors = Matrix.Substract(targets, nn_outputs);
+		this.weights_ih.Display("weights_ih");
+		Matrix hidden = Matrix.Multiply (this.weights_ih, input_mat);
+		hidden.Add (this.bias_h);
+		hidden.Map (this.activation_function);
+//		hidden.Display("hidden");
+		// hidden.Dis
+
+		Matrix nn_outputs = Matrix.Multiply (this.weights_ho, hidden);
+		nn_outputs.Add(this.bias_o);
+		nn_outputs.Map(this.activation_function);
+
+		// Convert array to matrix object
+		Matrix targets = Matrix.fromArray (myTarget);
+	
+	//calulate errors
+		Matrix output_errors = Matrix.Substract (targets, nn_outputs);
+
+		//calulate gradients of error
+		Matrix gradients = new Matrix(output_errors);
+		gradients.Display("gradients");
+		gradients.Map(this.activation_devFunction);
+		gradients.multiply(output_errors);
+    // gradients.multiply(this.learning_rate);
+
+
+
 
 
 

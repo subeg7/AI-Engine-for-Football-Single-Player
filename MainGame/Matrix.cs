@@ -4,25 +4,35 @@ using UnityEngine;
 using System;
 
 public class Matrix  {
-  int rows;
-  int cols;
+  public int rows;
+  public int cols;
   public float[,] data;
 
   public Matrix(int _rows, int _cols){
     this.rows = _rows;
     this.cols = _cols;
-		this.data = new float[_rows,_cols];
-
-    // this.Map(5.4f);
+   this.data = new float[_rows,_cols];
 
   }
 
+  public Matrix(Matrix mat){
+    this.rows = mat.rows;
+    this.cols = mat.cols;
+     this.data = new float[mat.rows,mat.cols];
+
+    for(int i =0;i<mat.rows;i++){
+      for(int j =0;j<mat.cols;j++){
+        this.data[i,j]=mat.data[i,j];
+      }
+    }
+  }
+
   public void Display(string st){
-    Debug.Log ("matrix="+st);
-    Debug.Log ("rows="+this.rows);
-    Debug.Log ("cols="+this.cols);
-		this.DisplayArray ();
-    Debug.Log("........................displaying ended for."+st);
+    Debug.Log ("matrix "+st+" has rows="+this.rows+"cols="+this.cols);
+    // Debug.Log ("rows="+this.rows);
+    // Debug.Log ("cols="+this.cols);
+		// this.DisplayArray ();
+    // Debug.Log("........................displaying ended for."+st);
 
   }
 
@@ -36,15 +46,7 @@ public class Matrix  {
     }
   }
 
-  public void Map(float x){
-   for(int i =0;i<this.rows;i++){
-     for(int j=0;j<this.cols;j++){
-       // Debug.Log("inserting:"+x);
-       this.data[i,j]= x;
-       // Debug.Log("value at array:"+this.data[i,j]);
-     }
-   }
-  }
+
 
   public  void DisplayArray(){
     string singleRow="[";
@@ -70,19 +72,28 @@ public class Matrix  {
 
    }
 
-
-
+   public void Map(float x){
+    for(int i =0;i<this.rows;i++){
+      for(int j=0;j<this.cols;j++){
+        // Debug.Log("inserting:"+x);
+        this.data[i,j]= x;
+        // Debug.Log("value at array:"+this.data[i,j]);
+      }
+    }
+   }
 
   public void Map(string func){
     if(func=="sigmoid")
-      this.SigmoidMap();
+      this.SigmoidMap("normal");
+    else if(func=="dsigmoid")
+      this.SigmoidMap("dev");
     else if (func=="relu")
       this.ReluMap();
     else if(func=="tanh")
       this.TanhMap();
-
-
   }
+
+
   public void Add(Matrix mat){
     for(int i =0;i<mat.rows;i++){
       for(int j=0;j<mat.cols;j++)
@@ -91,13 +102,17 @@ public class Matrix  {
   }
 
   public static  Matrix  Substract(Matrix a, Matrix b){
-    Matrix result  = new Matrix(a.rows,a.cols);
-    for(int i =0;i<a.rows;i++){
-      for(int j=0;j<a.cols;j++)
+    if(a.rows!=b.rows || a.cols!=b.cols)
+			Debug.Log("size doesn't match");
+      Matrix result  = new Matrix(a.rows,a.cols);
+      for(int i =0;i<a.rows;i++){
+        for(int j=0;j<a.cols;j++)
         result.data[i,j]= a.data[i,j]-b.data[i,j];
     }
     return result;
   }
+
+
   public static Matrix Multiply(Matrix a , Matrix b){
 
     if (a.cols != b.rows) {
@@ -119,6 +134,29 @@ public class Matrix  {
     return result;
     }
   }
+
+  public void Matrix multiply(Matrix a){
+
+    if (this.cols != b.rows) {
+      Debug.Log("this.cols must equal b.rows");
+      return null;
+    }else{
+
+      for(int i =0;i<this.rows;i++){
+        for(int j=0;j<b.cols;j++){
+          float sum=0;
+          for(int k=0;k<b.rows;k++)
+            sum+=this.data[i,k]*b.data[k,j];
+          this.data[i,j]=sum;
+          sum=0;
+        }
+
+      }
+
+    }
+  }
+
+
   public static Matrix fromArray(float[] arr){
     Matrix mat = new Matrix(arr.Length,1);
       for(int i =0;i<arr.Length;i++){
@@ -126,12 +164,23 @@ public class Matrix  {
       }
     return mat;
   }
-  private void SigmoidMap(){
+
+
+  private void SigmoidMap(string type = "normal"){
     for(int i =0;i<this.rows;i++){
       for(int j=0;j<this.cols;j++)
-        this.data[i,j]=1/(1+(float)Math.Exp( this.data[i,j]) );
+      if(type=="normal")
+        this.data[i,j]=this.Sigmoid(this.data[i,j]);
+      else if(type=="dev")
+        this.data[i,j]=this.Sigmoid(this.data[i,j]) * ( 1- this.Sigmoid(this.data[i,j]) );
+
     }
   }
+
+  private float Sigmoid(float num){
+		return 1/(1+(float)Math.Exp( num )  );
+  }
+
 
   private void ReluMap(){
 
