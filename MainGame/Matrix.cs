@@ -12,9 +12,7 @@ public class Matrix  {
     this.rows = _rows;
     this.cols = _cols;
    this.data = new float[_rows,_cols];
-
   }
-
   public Matrix(Matrix mat){
     this.rows = mat.rows;
     this.cols = mat.cols;
@@ -33,21 +31,7 @@ public class Matrix  {
     // Debug.Log ("cols="+this.cols);
 		// this.DisplayArray ();
     // Debug.Log("........................displaying ended for."+st);
-
   }
-
-  public void Randomize(){
-    for(int i =0;i<this.rows;i++){
-      for(int j=0;j<this.cols;j++){
-        // Debug.Log("inserting:"+x);
-        this.data[i,j]= UnityEngine.Random.Range(-1.0f,1.0f );
-        // Debug.Log("value at array:"+this.data[i,j]);
-      }
-    }
-  }
-
-
-
   public  void DisplayArray(){
     string singleRow="[";
    for(int i =0;i<this.rows;i++){
@@ -59,9 +43,7 @@ public class Matrix  {
      Debug.Log(singleRow);
      singleRow ="[";
    }
-
   }
-
   public  static void DisplayArray(float[] arr){
     string singleRow="[";
    for(int i =0;i<arr.Length;i++){
@@ -72,25 +54,23 @@ public class Matrix  {
 
    }
 
-   public void Map(float x){
+
+  public void Randomize(){
     for(int i =0;i<this.rows;i++){
-      for(int j=0;j<this.cols;j++){
-        // Debug.Log("inserting:"+x);
-        this.data[i,j]= x;
-        // Debug.Log("value at array:"+this.data[i,j]);
+      for(int j=0;j<this.cols;j++)
+        this.data[i,j]= UnityEngine.Random.Range(-1.0f,1.0f);
+
+    }
+  }
+
+  public static Matrix Transpose(Matrix mat){
+    Matrix trans = new Matrix(mat.cols,mat.rows);
+    for(int i=0;i<mat.rows;i++){
+    for(int j=0;j<mat.cols;j++){
+        trans.data[j,i]=mat.data[i,j];
       }
     }
-   }
-
-  public void Map(string func){
-    if(func=="sigmoid")
-      this.SigmoidMap("normal");
-    else if(func=="dsigmoid")
-      this.SigmoidMap("dev");
-    else if (func=="relu")
-      this.ReluMap();
-    else if(func=="tanh")
-      this.TanhMap();
+    return trans;
   }
 
 
@@ -100,7 +80,6 @@ public class Matrix  {
         this.data[i,j]+=mat.data[i,j];
     }
   }
-
   public static  Matrix  Substract(Matrix a, Matrix b){
     if(a.rows!=b.rows || a.cols!=b.cols)
 			Debug.Log("size doesn't match");
@@ -162,15 +141,26 @@ public class Matrix  {
     }
   }
 
-
-  public static Matrix fromArray(float[] arr){
-    Matrix mat = new Matrix(arr.Length,1);
-      for(int i =0;i<arr.Length;i++){
-        mat.data[i,0]=arr[i];
-      }
-    return mat;
+  public void Fill(float x){
+   for(int i =0;i<this.rows;i++){
+     for(int j=0;j<this.cols;j++){
+       // Debug.Log("inserting:"+x);
+       this.data[i,j]= x;
+       // Debug.Log("value at array:"+this.data[i,j]);
+     }
+   }
   }
 
+  public void Map(string func){
+   if(func=="sigmoid")
+     this.SigmoidMap("normal");
+   else if(func=="dsigmoid")
+     this.SigmoidMap("dev");
+   else if (func=="relu")
+     this.ReluMap();
+   else if(func=="tanh")
+     this.TanhMap();
+  }
 
   private void SigmoidMap(string type = "normal"){
     for(int i =0;i<this.rows;i++){
@@ -188,14 +178,15 @@ public class Matrix  {
   }
 
 
-  private void ReluMap(){
+  private void ReluMap(){ }
 
-  }
+  private void TanhMap(){}
 
-  private void TanhMap(){
-  //   for(int i =0;i<this.rows;i++){
-  //     for(int j=0;j<this.cols;j++)
-  //       this.data[i,j]=1/(1+Math.exponential(-this.data[i,j]))
-  //   }
+  public static Matrix fromArray(float[] arr){
+    Matrix mat = new Matrix(arr.Length,1);
+      for(int i =0;i<arr.Length;i++){
+        mat.data[i,0]=arr[i];
+      }
+    return mat;
   }
 }

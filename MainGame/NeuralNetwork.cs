@@ -73,7 +73,14 @@ public class NeuralNetwork
 		gradients.multiply(output_errors);
     gradients.multiply(this.learning_rate);
 
-		//calculate delts
+		// Calculate deltas
+		Matrix hidden_T = Matrix.transpose(hidden);
+		Matrix weight_ho_deltas = Matrix.Multiply(gradients, hidden_T);
+
+
+		// Calculate the hidden layer errors
+		Matrix weights_ho_trans = Matrix.Transpose(weights_ho);
+		Matrix hidden_errors= Matrix.Multiply(weights_ho_trans,output_errors);
 
 
 
