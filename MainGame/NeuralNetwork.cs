@@ -69,12 +69,13 @@ public class NeuralNetwork
 		//calulate gradients of error
 		Matrix gradients = new Matrix(output_errors);
 		gradients.Display("gradients");
+		output_errors.Display("output_errors");
 		gradients.Map(this.activation_devFunction);
 		gradients.multiply(output_errors);
     gradients.multiply(this.learning_rate);
 
-		// Calculate deltas
-		Matrix hidden_T = Matrix.transpose(hidden);
+		// Calculate hidden deltas
+		Matrix hidden_T = Matrix.Transpose(hidden);
 		Matrix weight_ho_deltas = Matrix.Multiply(gradients, hidden_T);
 
 
@@ -82,8 +83,19 @@ public class NeuralNetwork
 		Matrix weights_ho_trans = Matrix.Transpose(weights_ho);
 		Matrix hidden_errors= Matrix.Multiply(weights_ho_trans,output_errors);
 
+		// Calculate hidden gradient
+		Matrix hidden_gradient = new Matrix(hidden);//dupilicating the hidden matrix and naming it gradient
+		hidden_gradient.Map(this.activation_function);
+		hidden_gradient.multiply(hidden_errors);
+		// hidden_gradient.multiply(this.learning_rate);
 
-
+		// //calculate the input deltas
+		// Matrix inputs_T = Matrix.Transpose(input_mat);
+		// Matrix weight_ih_deltas = Matrix.Multiply(hidden_gradient,inputs_T);
+		//
+		// // Adjust the bias by its deltas (which is just the gradients)
+		// this.weights_ih.Add(weight_ih_deltas);
+		// this.bias_h.Add(hidden_gradient);
 
 	}
 
